@@ -9,7 +9,7 @@ screen.bgcolor('black')
 screen.title('Pong')
 screen.tracer(0)
 
-r_paddle = Paddle((350, 0))
+r_paddle = Paddle((350, 160))
 l_paddle = Paddle((-350, 0))
 ball = Ball()
 
@@ -23,13 +23,28 @@ game_is_on = True
 ball_direction = (10, 10)
 while game_is_on:
   screen.update()
-  time.sleep(0.1)
+  time.sleep(0.05)
 
-  # Detect ball collision with wall
-  if (ball.ycor() >= screen.window_height()/2 - 20):
-    ball_direction = (10, -10)
-  elif(ball.ycor() <= -(screen.window_height()/2 - 20)):
-    ball_direction = (10, 10)
+  # Detect ball collision with wall 
+  height_limit = screen.window_height()/2 - 20
+  width_limit = screen.window_width()/2 - 20
+  x_continue = ball_direction[0]
+
+  if(ball.ycor() >= height_limit):
+    ball_direction = (x_continue, -10)
+  elif(ball.ycor() <= -height_limit):
+    ball_direction = (x_continue, 10)
+    
+  # Detect paddle collision
+  elif(ball.xcor() == width_limit - 40 or ball.xcor() == -(width_limit - 40)):
+    y_continue = ball_direction[1]
+    if(ball.ycor() <= r_paddle.ycor() + 50 and ball.ycor() >= r_paddle.ycor() - 50):
+      ball_direction = (-10, y_continue)
+    elif(ball.ycor() <= l_paddle.ycor() + 50 and ball.ycor() >= l_paddle.ycor() - 50):
+      ball_direction = (10, y_continue)
+  elif(ball.xcor() >= width_limit or ball.xcor() <= -width_limit):
+    print('GAME OVER')
+    game_is_on = False
 
   ball.move(ball_direction[0], ball_direction[1])
 
