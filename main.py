@@ -20,9 +20,17 @@ screen.onkey(l_paddle.go_up, 'w')
 screen.onkey(l_paddle.go_down, 's')
 
 game_is_on = True
+ball_direction = (10, 10)
 while game_is_on:
   screen.update()
   time.sleep(0.1)
-  ball.move()
-  
+
+  # Detect ball collision with wall
+  if (ball.ycor() >= screen.window_height()/2 - 20):
+    ball_direction = (10, -10)
+  elif(ball.ycor() <= -(screen.window_height()/2 - 20)):
+    ball_direction = (10, 10)
+
+  ball.move(ball_direction[0], ball_direction[1])
+
 screen.mainloop()
