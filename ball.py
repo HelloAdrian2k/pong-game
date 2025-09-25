@@ -11,3 +11,6 @@ class Ball(Turtle):
     new_xcor = self.xcor() + x_offset
     new_ycor = self.ycor() + y_offset
     self.goto(new_xcor,new_ycor)
+
+  def reset_position(self):
+    self.goto(0, 0)

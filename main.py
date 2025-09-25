@@ -48,10 +48,12 @@ while game_is_on:
   # Detect score point to left side
   if(ball.xcor() >= width_limit):
     scoreboard.l_point()
+    ball.reset_position()
 
   # Detect score point to right side 
   if(ball.xcor() <= -width_limit):
     scoreboard.r_point()
+    ball.reset_position()
 
   ball.move(ball_direction[0], ball_direction[1])
 
