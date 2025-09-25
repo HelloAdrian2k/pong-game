@@ -25,7 +25,7 @@ game_is_on = True
 ball_direction = (10, 10)
 while game_is_on:
   screen.update()
-  time.sleep(0.05)
+  time.sleep(ball.move_speed)
 
   # Detect ball collision with wall 
   height_limit = screen.window_height()/2 - 20
@@ -42,8 +42,10 @@ while game_is_on:
     y_continue = ball_direction[1]
     if(ball.ycor() <= r_paddle.ycor() + 50 and ball.ycor() >= r_paddle.ycor() - 50):
       ball_direction = (-10, y_continue)
+      ball.increase_speed()
     elif(ball.ycor() <= l_paddle.ycor() + 50 and ball.ycor() >= l_paddle.ycor() - 50):
       ball_direction = (10, y_continue)
+      ball.increase_speed()
   
   # Detect score point to left side
   if(ball.xcor() >= width_limit):
@@ -54,6 +56,13 @@ while game_is_on:
   if(ball.xcor() <= -width_limit):
     scoreboard.r_point()
     ball.reset_position()
+
+  if scoreboard.r_score >= 20 or scoreboard.l_score >= 20:
+    game_is_on = False
+    if scoreboard.r_score >= 20:
+      scoreboard.print_winner('right')
+    else:
+      scoreboard.print_winner('left')
 
   ball.move(ball_direction[0], ball_direction[1])
 

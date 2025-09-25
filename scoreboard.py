@@ -25,3 +25,7 @@ class Scoreboard(Turtle):
   def r_point(self):
     self.r_score += 1
     self.update_scoreboard()
+
+  def print_winner(self, winner):
+    self.goto(0,0)
+    self.write(f'{winner} wins', align='center', font=('Courier', 40, 'normal'))
