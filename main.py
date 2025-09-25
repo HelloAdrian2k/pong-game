@@ -1,6 +1,7 @@
 from turtle import Turtle, Screen
 from paddle import Paddle
 from ball import Ball
+from scoreboard import Scoreboard
 import time
 
 screen = Screen()
@@ -12,6 +13,7 @@ screen.tracer(0)
 r_paddle = Paddle((350, 160))
 l_paddle = Paddle((-350, 0))
 ball = Ball()
+scoreboard = Scoreboard()
 
 screen.listen()
 screen.onkey(r_paddle.go_up, 'Up')
@@ -42,9 +44,14 @@ while game_is_on:
       ball_direction = (-10, y_continue)
     elif(ball.ycor() <= l_paddle.ycor() + 50 and ball.ycor() >= l_paddle.ycor() - 50):
       ball_direction = (10, y_continue)
-  elif(ball.xcor() >= width_limit or ball.xcor() <= -width_limit):
-    print('GAME OVER')
-    game_is_on = False
+  
+  # Detect score point to left side
+  if(ball.xcor() >= width_limit):
+    scoreboard.l_point()
+
+  # Detect score point to right side 
+  if(ball.xcor() <= -width_limit):
+    scoreboard.r_point()
 
   ball.move(ball_direction[0], ball_direction[1])
 
